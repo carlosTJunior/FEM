@@ -1,4 +1,4 @@
-OBJS = test.c LinearSystem.c
+OBJS = test.c LinearAlgebra.c
 
 OBJ_NAME = prog
 
