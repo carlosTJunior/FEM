@@ -21,6 +21,25 @@ Vector LinearAlgebra_createVector( int n )
 	return vector;
 }
 
+int LinearAlgebra_setVectorElement( Vector vector, int n, int position, varType value )
+{
+	if( !vector )
+	{
+		fprintf( stderr, "Invalid Parameter\n" );
+		exit(1);
+	}
+
+	if( position > n )
+	{
+		fprintf( stderr, "Invalid Position\n" );
+		exit(2);
+	}
+
+	vector[position] = value;
+
+	return 0;
+}
+
 void LinearAlgebra_displayVector( Vector vector, int n )
 {
 	int i;
@@ -137,7 +156,27 @@ LinearAlgebra_subtractMatrixRows( Matrix matrix, int n, int resultRow, int row, 
 	return 0;
 }
 
-int LinearAlgebra_gaussElimination( Matrix matrix, int n )
+int
+LinearAlgebra_subtractVectorElements( Vector vector, int n, int resultRow, int row, varType coeficient )
+{
+	if( !vector )
+	{
+		fprintf( stderr, "Invalid Parameter\n" );
+		exit(1);
+	}
+
+	if( resultRow > n || row > n )
+	{
+		fprintf( stderr, "Invalid elements\n" );
+		exit(2);
+	}
+
+	vector[resultRow] = vector[resultRow] - coeficient*vector[row];
+
+	return 0;
+}
+
+int LinearAlgebra_gaussElimination( Matrix matrix, Vector vector, int n )
 {
 	int row, refRow, refColumn;
 	varType baseElement;
@@ -156,6 +195,7 @@ int LinearAlgebra_gaussElimination( Matrix matrix, int n )
 		{
 			baseElement = matrix[row][refColumn] / matrix[refRow][refColumn];
 			LinearAlgebra_subtractMatrixRows( matrix, n, row, refRow, baseElement );
+			LinearAlgebra_subtractVectorElements( vector, n, row, refRow, baseElement );
 		}
 	}
 	
