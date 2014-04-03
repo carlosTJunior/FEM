@@ -201,3 +201,33 @@ int LinearAlgebra_gaussElimination( Matrix matrix, Vector vector, int n )
 	
 	return 0;
 }
+
+Vector LinearAlgebra_solveLinearSystem( Matrix matrix, Vector vector, int n )
+{
+	Vector solutionVector = NULL;
+	int k, j;
+	varType sum;
+	if( !matrix || !vector )
+	{
+		fprintf( stderr,  "Invalid Parameters\n" );
+		exit(1);
+	}
+
+	LinearAlgebra_gaussElimination( matrix, vector, n );
+
+	solutionVector = LinearAlgebra_createVector( n );
+
+	solutionVector[n - 1] = vector[n - 1] / matrix[n - 1][n - 1];
+
+	for( k = n - 2; k >= 0; k-- )
+	{
+		sum = vector[k];
+		for( j = k + 1; j < n; j++ )
+		{
+			sum = sum - matrix[k][j] * solutionVector[j];
+		}
+		solutionVector[k] = sum / matrix[k][k];
+	}
+
+	return solutionVector;
+}
