@@ -3,9 +3,11 @@
 
 #define BACKWARD_DIFF 1
 #define CENTERED_DIFF 2 
+#define FORWARD_DIFF 3
 
 int FiniteDifferences_generateDirichletMatrix( Matrix, int );
 
+int FiniteDifferences_auxMatrixBackwardDiff( Matrix, int );
 int FiniteDifferences_generateVonNeumannMatrix( Matrix, int, int );
 
 #endif

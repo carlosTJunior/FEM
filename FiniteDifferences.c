@@ -28,10 +28,29 @@ int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n )
 	return 0;
 }
 
+int FiniteDifferences_auxMatrixBackwardDiff( Matrix matrix, int n )
+{
+	int row, column;
+	row = n - 1;
+	if( !matrix )
+	{
+		fprintf( stderr, "Invalid Parameter\n" );
+		exit(1);
+	}
+
+	for( column = 0; column < n; column++ )
+	{
+		matrix[row][column] = 0;
+	}
+	matrix[row][n - 1] = 1;
+	matrix[row][n - 2] = -1;
+
+	return 0;
+}
+
 int
 FiniteDifferences_generateVonNeumannMatrix( Matrix matrix, int n, int method )
 {
-	int row, column;
 	if( !matrix )
 	{
 		fprintf( stderr, "Invalid Parameter\n" );
@@ -42,13 +61,19 @@ FiniteDifferences_generateVonNeumannMatrix( Matrix matrix, int n, int method )
 
 	if( method == BACKWARD_DIFF )
 	{
-		for( column = 0, row = n - 1; column < n; column++ )
-		{
-			matrix[row][column] = 0;
-		}
+		FiniteDifferences_auxMatrixBackwardDiff( matrix, n );
+	}
+	else if( method == FORWARD_DIFF )
+	{
 
-		matrix[n - 1][n - 1] = 1;
-		matrix[n - 1][n - 2] = -1;
+	}
+	else if( method == CENTERED_DIFF )
+	{
+
+	}
+	else
+	{
+
 	}
 
 	return 0;
