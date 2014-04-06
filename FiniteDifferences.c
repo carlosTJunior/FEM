@@ -28,6 +28,27 @@ int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n )
 	return 0;
 }
 
+int
+FiniteDifferences_generateDirichletVector( Vector vector, int n, varType F0, varType FL )
+{
+	int row;
+	if( !vector )
+	{
+		fprintf( stderr, "Invalid Parameter\n" );
+		exit(1);
+	}
+
+	for( row = 0; row < n; row++ )
+	{
+		vector[row] = 0;
+	}
+
+	vector[0] -= F0;
+	vector[n - 1] -= FL;
+
+	return 0;
+}
+
 int FiniteDifferences_auxMatrixBackwardDiff( Matrix matrix, int n )
 {
 	int row, column;
