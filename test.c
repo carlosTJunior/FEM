@@ -7,16 +7,13 @@ int main()
 {
 	Vector myvector = NULL;
 	Matrix mymatrix = NULL;
+	Matrix myNewMatrix = NULL;
 	int vectorDim = 4;
 	int matrixDim = 4;
+	int newMatrixDim = 5;
 
 	myvector = LinearAlgebra_createVector( vectorDim );
 	mymatrix = LinearAlgebra_createMatrix( matrixDim );
-
-	LinearAlgebra_setVectorElement( myvector, vectorDim, 0, 1 );
-	LinearAlgebra_setVectorElement( myvector, vectorDim, 1, 0 );
-	LinearAlgebra_setVectorElement( myvector, vectorDim, 2, 2 );
-	LinearAlgebra_setVectorElement( myvector, vectorDim, 3, 1 );
 
 	LinearAlgebra_setNullMatrix( mymatrix, matrixDim );
 
@@ -28,6 +25,10 @@ int main()
 
 	FiniteDifferences_generateVonNeumannMatrix( mymatrix, matrixDim, 1 );
 	LinearAlgebra_displayMatrix( mymatrix, matrixDim );
+
+	myNewMatrix = LinearAlgebra_copyMatrix( mymatrix, matrixDim, newMatrixDim );
+
+	LinearAlgebra_displayMatrix( myNewMatrix, newMatrixDim );
 
 	return 0;
 }

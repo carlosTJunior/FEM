@@ -231,3 +231,32 @@ Vector LinearAlgebra_solveLinearSystem( Matrix matrix, Vector vector, int n )
 
 	return solutionVector;
 }
+
+Matrix LinearAlgebra_copyMatrix( Matrix matrix, int dim, int newDim )
+{
+	Matrix newMatrix = NULL;
+	int row, column;
+	if( !matrix )
+	{
+		fprintf( stderr, "Invalid Paramenter\n" );
+		exit(1);
+	}
+	if( newDim < dim )
+	{
+		fprintf( stderr, "Impossible to copy matrix: new dimension is less than actual dimension\n" );
+		exit(2);
+	}
+
+	newMatrix = LinearAlgebra_createMatrix( newDim );
+	LinearAlgebra_setNullMatrix( newMatrix, newDim );
+
+	for( row = 0; row < dim; row++ )
+	{
+		for( column = 0; column < dim; column++ )
+		{
+			newMatrix[row][column] = matrix[row][column];
+		}
+	}
+
+	return newMatrix;
+}

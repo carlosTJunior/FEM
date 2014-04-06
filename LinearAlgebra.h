@@ -17,6 +17,8 @@ void LinearAlgebra_displayMatrix( Matrix, int );
 int LinearAlgebra_subtractMatrixRows( Matrix, int, int, int, varType );
 int LinearAlgebra_gaussElimination( Matrix, Vector, int );
 
+Matrix LinearAlgebra_copyMatrix( Matrix, int, int );
+
 Vector LinearAlgebra_solveLinearSystem( Matrix, Vector, int );
 
 #endif
