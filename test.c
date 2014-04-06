@@ -6,7 +6,7 @@
 int main()
 {
 	Vector myvector = NULL;
-	Vector solution = NULL;
+	/*Vector solution = NULL;*/
 	Matrix mymatrix = NULL;
 	int vectorDim = 4;
 	int matrixDim = 4;
@@ -46,10 +46,11 @@ int main()
 
 	solution = LinearAlgebra_solveLinearSystem( mymatrix, myvector, vectorDim );*/
 
-	FiniteElements_generateDirichletMatrix( mymatrix, matrixDim );
+	FiniteDifferences_generateDirichletMatrix( mymatrix, matrixDim );
+	FiniteDifferences_generateVonNeumannMatrix( mymatrix, matrixDim, 1 );
 	LinearAlgebra_displayMatrix( mymatrix, matrixDim );
 	LinearAlgebra_displayVector( myvector, vectorDim );
-	LinearAlgebra_displayVector( solution, vectorDim );
+	/*LinearAlgebra_displayVector( solution, vectorDim );*/
 
 	return 0;
 }

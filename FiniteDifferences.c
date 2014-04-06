@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "LinearAlgebra.h"
+#include "FiniteDifferences.h"
 
-int FiniteElements_generateDirichletMatrix( Matrix matrix, int n )
+int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n )
 {
 	int row, column;
 	if( !matrix )
@@ -27,3 +28,29 @@ int FiniteElements_generateDirichletMatrix( Matrix matrix, int n )
 	return 0;
 }
 
+int
+FiniteDifferences_generateVonNeumannMatrix( Matrix matrix, int n, int method )
+{
+	int row, column;
+	if( !matrix )
+	{
+		fprintf( stderr, "Invalid Parameter\n" );
+		exit(1);
+	}
+
+	FiniteDifferences_generateDirichletMatrix( matrix, n );
+
+	if( method == BACKWARD_DIFF )
+	{
+		for( column = 0, row = n - 1; column < n; column++ )
+		{
+			matrix[row][column] = 0;
+		}
+
+		matrix[n - 1][n - 1] = 1;
+		matrix[n - 1][n - 2] = -1;
+	}
+
+	return 0;
+}
+			

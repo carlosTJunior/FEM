@@ -1,6 +1,11 @@
-#ifndef _FINITE_ELEMENTS
-#define _FINITE_ELEMENTS
+#ifndef _FINITE_DIFFERENCES
+#define _FINITE_DIFFERENCES
 
-int FiniteElements_generateDirichletMatrix( Matrix, int );
+#define BACKWARD_DIFF 1
+#define CENTERED_DIFF 2 
+
+int FiniteDifferences_generateDirichletMatrix( Matrix, int );
+
+int FiniteDifferences_generateVonNeumannMatrix( Matrix, int, int );
 
 #endif
