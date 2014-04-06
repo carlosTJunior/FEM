@@ -8,8 +8,8 @@
 int FiniteDifferences_generateDirichletMatrix( Matrix, int );
 int FiniteDifferences_generateDirichletVector( Vector, int , varType, varType );
 
-int FiniteDifferences_auxMatrixBackwardDiff( Matrix, int );
-int FiniteDifferences_generateVonNeumannMatrix( Matrix, int, int );
+Matrix FiniteDifferences_auxMatrixCenteredDiff( Matrix, int );
+int FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( Matrix, int );
 int FiniteDifferences_generateVonNeumannVector( Vector, int, varType, varType );
 
 #endif

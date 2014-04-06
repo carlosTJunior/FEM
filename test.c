@@ -23,10 +23,10 @@ int main()
 	FiniteDifferences_generateDirichletVector( myvector, vectorDim, 1, 0 );
 	LinearAlgebra_displayVector( myvector, vectorDim );
 
-	FiniteDifferences_generateVonNeumannMatrix( mymatrix, matrixDim, 1 );
+	FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( mymatrix, matrixDim );
 	LinearAlgebra_displayMatrix( mymatrix, matrixDim );
 
-	myNewMatrix = LinearAlgebra_copyMatrix( mymatrix, matrixDim, newMatrixDim );
+	myNewMatrix = FiniteDifferences_auxMatrixCenteredDiff( mymatrix, matrixDim );
 
 	LinearAlgebra_displayMatrix( myNewMatrix, newMatrixDim );
 

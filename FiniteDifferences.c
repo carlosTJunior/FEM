@@ -8,7 +8,7 @@ int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n )
 	int row, column;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: FiniteDifferences_generateDirichletMatrix()\n" );
 		exit(1);
 	}
 
@@ -34,7 +34,7 @@ FiniteDifferences_generateDirichletVector( Vector vector, int n, varType F0, var
 	int row;
 	if( !vector )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: FiniteDifferences_generateDirichletVector()\n" );
 		exit(1);
 	}
 
@@ -49,15 +49,16 @@ FiniteDifferences_generateDirichletVector( Vector vector, int n, varType F0, var
 	return 0;
 }
 
-int FiniteDifferences_auxMatrixBackwardDiff( Matrix matrix, int n )
+int FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( Matrix matrix, int n )
 {
 	int row, column;
 	row = n - 1;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: FiniteDifferences_auxMatrixBackwardDiff()\n" );
 		exit(1);
 	}
+	FiniteDifferences_generateDirichletMatrix( matrix, n );
 
 	for( column = 0; column < n; column++ )
 	{
@@ -69,34 +70,29 @@ int FiniteDifferences_auxMatrixBackwardDiff( Matrix matrix, int n )
 	return 0;
 }
 
-int
-FiniteDifferences_generateVonNeumannMatrix( Matrix matrix, int n, int method )
+Matrix FiniteDifferences_auxMatrixCenteredDiff( Matrix matrix, int n )
 {
+	Matrix newMatrix = NULL;
+	int row, column, newDim;
+	newDim = n + 1;
+
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: FiniteDifferences_auxMatrixCenteredDiff()\n" );
 		exit(1);
 	}
 
-	FiniteDifferences_generateDirichletMatrix( matrix, n );
-
-	if( method == BACKWARD_DIFF )
+	newMatrix = LinearAlgebra_createMatrix( newDim );
+	LinearAlgebra_setNullMatrix( newMatrix, newDim );
+	FiniteDifferences_generateDirichletMatrix( newMatrix, newDim );
+	for( row = n, column = 0; column < newDim; column++ )
 	{
-		FiniteDifferences_auxMatrixBackwardDiff( matrix, n );
-	}
-	else if( method == FORWARD_DIFF )
-	{
-
-	}
-	else if( method == CENTERED_DIFF )
-	{
-
-	}
-	else
-	{
-
+		newMatrix[row][column] = 0;
 	}
 
-	return 0;
+	newMatrix[newDim - 1][newDim - 1] = 1;
+	newMatrix[newDim - 1][newDim - 3] = -1;
+
+	return newMatrix;
 }
-			
+
