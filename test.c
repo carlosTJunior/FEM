@@ -26,7 +26,7 @@ int main()
 	FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( mymatrix, matrixDim );
 	LinearAlgebra_displayMatrix( mymatrix, matrixDim );
 
-	myNewMatrix = FiniteDifferences_auxMatrixCenteredDiff( mymatrix, matrixDim );
+	myNewMatrix = FiniteDifferences_generateVonNeumannMatrix_CenteredDiff( matrixDim );
 
 	LinearAlgebra_displayMatrix( myNewMatrix, newMatrixDim );
 

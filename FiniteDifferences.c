@@ -70,17 +70,11 @@ int FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( Matrix matrix, int 
 	return 0;
 }
 
-Matrix FiniteDifferences_auxMatrixCenteredDiff( Matrix matrix, int n )
+Matrix FiniteDifferences_generateVonNeumannMatrix_CenteredDiff( int n )
 {
 	Matrix newMatrix = NULL;
 	int row, column, newDim;
 	newDim = n + 1;
-
-	if( !matrix )
-	{
-		fprintf( stderr, "Invalid Parameter: FiniteDifferences_auxMatrixCenteredDiff()\n" );
-		exit(1);
-	}
 
 	newMatrix = LinearAlgebra_createMatrix( newDim );
 	LinearAlgebra_setNullMatrix( newMatrix, newDim );
@@ -95,4 +89,3 @@ Matrix FiniteDifferences_auxMatrixCenteredDiff( Matrix matrix, int n )
 
 	return newMatrix;
 }
-

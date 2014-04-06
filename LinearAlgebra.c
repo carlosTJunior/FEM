@@ -9,7 +9,7 @@ Vector LinearAlgebra_createVector( int n )
 	vector = malloc( n*sizeof( varType ) );
 	if( !vector )
 	{
-		fprintf( stderr, "Impossible to allocate memory\n" );
+		fprintf( stderr, "Impossible to allocate memory: LinearAlgebra_createVector()\n" );
 		exit(1);
 	}
 
@@ -25,13 +25,13 @@ int LinearAlgebra_setVectorElement( Vector vector, int n, int position, varType 
 {
 	if( !vector )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_setVectorElement()\n" );
 		exit(1);
 	}
 
 	if( position > n )
 	{
-		fprintf( stderr, "Invalid Position\n" );
+		fprintf( stderr, "Invalid Position(out of bounds): LinearAlgebra_setVectorElement()\n" );
 		exit(2);
 	}
 
@@ -45,7 +45,7 @@ void LinearAlgebra_displayVector( Vector vector, int n )
 	int i;
 	if( !vector )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_displayVector()\n" );
 		exit(2);
 	}
 
@@ -63,7 +63,7 @@ Matrix LinearAlgebra_createMatrix( int n )
 	matrix = malloc( n*n*sizeof( varType ) );
 	if( !matrix )
 	{
-		fprintf( stderr, "Impossible to allocate memory\n");
+		fprintf( stderr, "Impossible to allocate memory: LinearAlgebra_createMatrix()\n");
 		exit(1);
 	}
 
@@ -80,7 +80,7 @@ int LinearAlgebra_setNullMatrix( Matrix matrix, int n )
 	int row, column;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_setNullMatrix()\n" );
 		exit(1);
 	}
 
@@ -100,7 +100,7 @@ void LinearAlgebra_displayMatrix( Matrix matrix, int n )
 	int row, column;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_displayMatrix()\n" );
 		exit(2);
 	}
 
@@ -123,13 +123,13 @@ LinearAlgebra_setMatrixElement( Matrix matrix, int n, int row, int column, varTy
 {
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_setMatrixElement()\n" );
 		exit(1);
 	}
 
 	if( row >= n || column >= n || row < 0 || column < 0 )
 	{
-		fprintf( stderr, "Invalid row or Column" );
+		fprintf( stderr, "Invalid row or Column(out of bounds): LinearAlgebra_setMatrixElement()" );
 		exit(3);
 	}
 
@@ -144,7 +144,7 @@ LinearAlgebra_subtractMatrixRows( Matrix matrix, int n, int resultRow, int row, 
 	int column;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_subtractMatrixRows()\n" );
 		exit(1);
 	}
 
@@ -161,13 +161,13 @@ LinearAlgebra_subtractVectorElements( Vector vector, int n, int resultRow, int r
 {
 	if( !vector )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_subtractVectorElement()\n" );
 		exit(1);
 	}
 
 	if( resultRow > n || row > n )
 	{
-		fprintf( stderr, "Invalid elements\n" );
+		fprintf( stderr, "Invalid elements(out of bounds): LinearAlgebra_subtractVectorElement()\n" );
 		exit(2);
 	}
 
@@ -182,7 +182,7 @@ int LinearAlgebra_gaussElimination( Matrix matrix, Vector vector, int n )
 	varType baseElement;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Parameter\n" );
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_gaussElimination()\n" );
 		exit(1);
 	}
 
@@ -209,7 +209,7 @@ Vector LinearAlgebra_solveLinearSystem( Matrix matrix, Vector vector, int n )
 	varType sum;
 	if( !matrix || !vector )
 	{
-		fprintf( stderr,  "Invalid Parameters\n" );
+		fprintf( stderr,  "Invalid Parameters: LinearAlgebra_solveLinearSystem()\n" );
 		exit(1);
 	}
 
@@ -238,7 +238,7 @@ Matrix LinearAlgebra_copyMatrix( Matrix matrix, int dim, int newDim )
 	int row, column;
 	if( !matrix )
 	{
-		fprintf( stderr, "Invalid Paramenter\n" );
+		fprintf( stderr, "Invalid Paramenter: LinearAlgebra_copyMatrix()\n" );
 		exit(1);
 	}
 	if( newDim < dim )
