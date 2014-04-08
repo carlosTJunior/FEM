@@ -51,7 +51,7 @@ void LinearAlgebra_displayVector( Vector vector, int n )
 
 	for( i = 0; i < n ; i++ )
 	{
-		printf( "[ %.2f ]\n", vector[i]);
+		printf( "[ %.4f ]\n", vector[i]);
 	}
 	printf( "\n" );
 }
@@ -109,7 +109,7 @@ void LinearAlgebra_displayMatrix( Matrix matrix, int n )
 		printf( "[ " );
 		for( column = 0; column < n; column++ )
 		{
-			printf( "%.2f ", matrix[row][column] );
+			printf( "%.4f ", matrix[row][column] );
 		}
 
 		printf( "]\n" );
