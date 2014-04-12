@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "LinearAlgebra.h"
 
+extern FILE *file;
+
 Vector LinearAlgebra_createVector( int n )
 {
 	int i;
@@ -54,6 +56,64 @@ void LinearAlgebra_displayVector( Vector vector, int n )
 		printf( "[ %.4f ]\n", vector[i]);
 	}
 	printf( "\n" );
+}
+
+void
+LinearAlgebra_writeVectorsToFile( Vector vectorX, Vector vectorY, int n )
+{
+	int i;
+
+	if( !vectorX || !vectorY )
+	{
+		fprintf( stderr, "Invalid Parameters: LinearAlgebra_writeVectorToFile()\n" );
+		exit(1);
+	}
+
+	file = fopen( "dados.txt", "w" );
+
+	for( i = 0; i < n; i++ )
+	{
+		fprintf( file, "%f\t%f\n", vectorX[i], vectorY[i]);
+	}
+	fprintf( file, "\n\n" );
+
+	fclose( file );
+}
+
+int LinearAlgebra_subtractVector( Vector vector1, Vector vector2, int dim )
+{
+	int row;
+	if( !vector1 || !vector2 )
+	{
+		fprintf( stderr, "Invalid Parameters: LinearAlgebra_subtractVector()\n" );
+		exit(1);
+	}
+
+	for( row = 0; row < dim; row++ )
+	{
+		vector1[row] -= vector2[row];
+	}
+
+	return 0;
+}
+
+int LinearAlgebra_generateDeltaXVector( Vector vector, int dim, double deltaX )
+{
+	int i;
+	double sum = 0;
+	if( !vector )
+	{
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_generateDeltaXVector()\n" );
+		exit(1);
+	}
+
+	for( i = 0; i < dim; i++ )
+	{
+		sum += deltaX;
+		vector[i] = sum;
+	}
+
+	return 0;
 }
 
 Matrix LinearAlgebra_createMatrix( int n )
@@ -188,7 +248,6 @@ int LinearAlgebra_gaussElimination( Matrix matrix, Vector vector, int n )
 
 	for( refRow = 0 ; refRow < n - 1; refRow++)
 	{
-		row = refRow + 1;
 		refColumn = refRow;
 
 		for( row = refRow + 1; row < n; row++ )
