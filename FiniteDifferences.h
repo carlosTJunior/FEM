@@ -14,4 +14,8 @@ int FiniteDifferences_generateVonNeumannVector_CenteredDiff( Vector, int, double
 int FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( Matrix, int, double );
 int FiniteDifferences_generateVonNeumannVector_BackwardDiff( Vector, int, double, double, double );
 
+int FiniteDifferences_solveDirichletProblem( int, double, double, double );
+int FiniteDifferences_solveVonNeumannBackwardProblem( int, double, double, double );
+int FiniteDifferences_solveVonNeumannCenteredProblem( int, double, double, double );
+
 #endif

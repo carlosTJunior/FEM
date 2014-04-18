@@ -20,10 +20,13 @@ void LinearAlgebra_displayMatrix( Matrix, int );
 int LinearAlgebra_subtractMatrixRows( Matrix, int, int, int, varType );
 int LinearAlgebra_gaussElimination( Matrix, Vector, int );
 
+Vector LinearAlgebra_matrixTimesVector( Matrix, Vector, int );
+
 Vector LinearAlgebra_gaussSeidel( Matrix, Vector, int );
 
 Matrix LinearAlgebra_copyMatrix( Matrix, int, int );
 
 Vector LinearAlgebra_solveLinearSystem( Matrix, Vector, int );
+void LinearAlgebra_displayLinearSystem( Matrix, Vector, int );
 
 #endif

@@ -3,7 +3,7 @@
 #include "LinearAlgebra.h"
 #include "FiniteDifferences.h"
 
-int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n, double dtX )
+int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n, double dltX )
 {
 	int row, column;
 	if( !matrix )
@@ -17,7 +17,7 @@ int FiniteDifferences_generateDirichletMatrix( Matrix matrix, int n, double dtX 
 		for( column = 0; column < n; column++ )
 		{
 			if( row == column )
-				matrix[row][column] = (dtX*dtX) - 2;
+				matrix[row][column] = (dltX*dltX) - 2;
 			else if( row - column == 1 || column - row == 1 )
 				matrix[row][column] = 1;
 			else
@@ -128,3 +128,106 @@ int FiniteDifferences_generateVonNeumannVector_CenteredDiff( Vector vector, int 
 	vector[n - 1] = dFiL * ( 2 * dltX );
 	return 0;
 }
+
+int FiniteDifferences_solveDirichletProblem( int n, double deltaX, double fi0, double fiL )
+{
+	Matrix matrix1 = NULL;
+	Vector vector1 = NULL;
+	Vector solution = NULL;
+	Vector dltVector = NULL;
+
+	dltVector = LinearAlgebra_createVector( n );
+
+	matrix1 = LinearAlgebra_createMatrix( n - 1 );
+	LinearAlgebra_setNullMatrix( matrix1, n - 1 );
+	FiniteDifferences_generateDirichletMatrix( matrix1, n - 1, deltaX );
+
+	printf( "Matrix A e vetor b ( Ax = b ) para o problema com C.C de Dirichlet\n" );
+	LinearAlgebra_displayMatrix( matrix1, n - 1 );
+
+	vector1 = LinearAlgebra_createVector( n - 1 );
+	FiniteDifferences_generateDirichletVector( vector1, n - 1, fi0, fiL );
+
+	LinearAlgebra_displayVector( vector1, n - 1 );
+
+	printf( "A solucao (vetor x) do Sistema Linear eh dada por\n\n" );
+
+	LinearAlgebra_generateDeltaXVector( dltVector, n, deltaX );
+
+	solution = LinearAlgebra_createVector( n - 1 );
+
+	solution = LinearAlgebra_solveLinearSystem( matrix1, vector1, n - 1 );
+
+	LinearAlgebra_displayVector( solution, n - 1 );
+
+	LinearAlgebra_writeVectorsToFile( dltVector, solution, n - 1);
+
+	return 0;
+}
+
+int FiniteDifferences_solveVonNeumannBackwardProblem( int n, double deltaX, double fi0, double dFiL )
+{
+	Matrix matrix = NULL;
+	Vector vector = NULL;
+	Vector solution = NULL;
+	Vector dltVector = NULL;
+
+	dltVector = LinearAlgebra_createVector( n );
+
+	matrix = LinearAlgebra_createMatrix( n );
+	LinearAlgebra_setNullMatrix( matrix, n );
+	FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( matrix, n, deltaX );
+
+	printf( "A matriz A e o vetor b (Ax = b) para as C.C de Von Neumann, com diferencas atrasadas\n" );
+	LinearAlgebra_displayMatrix( matrix, n );
+
+	vector = LinearAlgebra_createVector( n );
+	FiniteDifferences_generateVonNeumannVector_BackwardDiff( vector, n, fi0, dFiL, deltaX );
+
+	LinearAlgebra_displayVector( vector, n );
+
+	printf( "A solucao (vetor x) do sistema linear eh dada por\n\n" );
+
+	LinearAlgebra_generateDeltaXVector( dltVector, n, deltaX );
+
+	solution = LinearAlgebra_createVector( n );
+	solution = LinearAlgebra_solveLinearSystem( matrix, vector, n );
+
+	LinearAlgebra_displayVector( solution, n );	
+	LinearAlgebra_writeVectorsToFile( dltVector, solution, n );
+
+	return 0;
+}
+
+int FiniteDifferences_solveVonNeumannCenteredProblem( int n, double deltaX, double phi_0, double dPhi_L )
+{
+	Matrix matrix = NULL;
+	Vector vector = NULL;
+	Vector solution = NULL;
+	Vector deltaVector = NULL;
+	Vector confere = NULL;
+	int dim = n + 1;
+
+	deltaVector = LinearAlgebra_createVector( dim );
+	matrix = FiniteDifferences_generateVonNeumannMatrix_CenteredDiff( dim, deltaX );
+
+	vector = LinearAlgebra_createVector( dim );
+	FiniteDifferences_generateVonNeumannVector_CenteredDiff( vector, dim, deltaX, phi_0, dPhi_L );
+
+	LinearAlgebra_generateDeltaXVector( deltaVector, n, deltaX );
+
+	LinearAlgebra_displayLinearSystem( matrix, vector, dim );
+
+	solution = LinearAlgebra_createVector( dim );
+	solution = LinearAlgebra_solveLinearSystem( matrix, vector, n - 1 );
+	LinearAlgebra_displayVector( solution, dim );
+
+	LinearAlgebra_writeVectorsToFile( deltaVector, solution, n );
+
+	matrix = FiniteDifferences_generateVonNeumannMatrix_CenteredDiff( dim, deltaX );
+	confere = LinearAlgebra_createVector( dim );
+	confere = LinearAlgebra_matrixTimesVector( matrix, solution, dim );
+	LinearAlgebra_displayVector( confere, dim );
+	return 0;
+}
+	

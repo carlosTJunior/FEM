@@ -236,6 +236,31 @@ LinearAlgebra_subtractVectorElements( Vector vector, int n, int resultRow, int r
 	return 0;
 }
 
+Vector LinearAlgebra_matrixTimesVector( Matrix matrix, Vector vector, int dim )
+{
+	Vector resultVector;
+	double sum;
+	int row, column;
+	if( !matrix || !vector )
+	{
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_matrixTimesVector()\n" );
+		exit(1);
+	}
+	resultVector = LinearAlgebra_createVector( dim );
+
+	for( row = 0; row < dim; row++ )
+	{
+		for( column = 0, sum = 0; column < dim; column++ )
+		{
+			sum += matrix[row][column] * vector[column];
+		}
+
+		resultVector[row] = sum;
+	}
+
+	return resultVector;
+}
+
 int LinearAlgebra_gaussElimination( Matrix matrix, Vector vector, int n )
 {
 	int row, refRow, refColumn;
@@ -319,3 +344,43 @@ Matrix LinearAlgebra_copyMatrix( Matrix matrix, int dim, int newDim )
 
 	return newMatrix;
 }
+
+void LinearAlgebra_displayLinearSystem( Matrix matrix, Vector vector, int dim )
+{
+	int row, column;
+	if( !matrix || !vector )
+	{
+		fprintf( stderr, "Invalid Parameter: LinearAlgebra_displayLinearSystem()\n" );
+		exit(1);
+	}
+	printf( "\n" );
+
+	for( row = 0; row < dim; row++ )
+	{
+		printf( "[ " );
+		for( column = 0; column < dim; column++ )
+		{
+			printf( "%f ", matrix[row][column] );
+		}
+		printf( "] [ phi_%i ] \t [ %f ]\n", row + 1, vector[row] );
+	}
+
+	printf( "\n\n" );
+}
+
+/*Vector LinearAlgebra_gaussSeidel( Matrix matrix, Vector vector, int dim )
+{
+	Vector solution = NULL;
+	double error = 0.0001;
+	int i;
+
+	if( !matrix || !vector )
+	{
+		fprintf( stderr, "Invalid Parameters: LinearAlgebra_gaussSeidel()\n" );
+		exit(1);
+	}
+
+	
+
+	return Vector;
+}*/
