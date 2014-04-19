@@ -80,8 +80,9 @@ LinearAlgebra_writeVectorsToFile( Vector vectorX, Vector vectorY, int n )
 	fclose( file );
 }
 
-int LinearAlgebra_subtractVector( Vector vector1, Vector vector2, int dim )
+Vector LinearAlgebra_subtractTwoVectors( Vector vector1, Vector vector2, int dim )
 {
+	Vector resultVector = NULL;
 	int row;
 	if( !vector1 || !vector2 )
 	{
@@ -89,23 +90,22 @@ int LinearAlgebra_subtractVector( Vector vector1, Vector vector2, int dim )
 		exit(1);
 	}
 
+	resultVector = LinearAlgebra_createVector( dim );
 	for( row = 0; row < dim; row++ )
 	{
-		vector1[row] -= vector2[row];
+		resultVector[row] = vector1[row] - vector2[row];
 	}
 
-	return 0;
+	return resultVector;
 }
 
-int LinearAlgebra_generateDeltaXVector( Vector vector, int dim, double deltaX )
+Vector LinearAlgebra_generateDeltaXVector( int dim, double deltaX )
 {
+	Vector vector = NULL;
 	int i;
 	double sum = 0;
-	if( !vector )
-	{
-		fprintf( stderr, "Invalid Parameter: LinearAlgebra_generateDeltaXVector()\n" );
-		exit(1);
-	}
+
+	vector = LinearAlgebra_createVector( dim );
 
 	for( i = 0; i < dim; i++ )
 	{
@@ -113,7 +113,7 @@ int LinearAlgebra_generateDeltaXVector( Vector vector, int dim, double deltaX )
 		vector[i] = sum;
 	}
 
-	return 0;
+	return vector;
 }
 
 Matrix LinearAlgebra_createMatrix( int n )
@@ -316,35 +316,6 @@ Vector LinearAlgebra_solveLinearSystem( Matrix matrix, Vector vector, int n )
 	return solutionVector;
 }
 
-Matrix LinearAlgebra_copyMatrix( Matrix matrix, int dim, int newDim )
-{
-	Matrix newMatrix = NULL;
-	int row, column;
-	if( !matrix )
-	{
-		fprintf( stderr, "Invalid Paramenter: LinearAlgebra_copyMatrix()\n" );
-		exit(1);
-	}
-	if( newDim < dim )
-	{
-		fprintf( stderr, "Impossible to copy matrix: new dimension is less than actual dimension\n" );
-		exit(2);
-	}
-
-	newMatrix = LinearAlgebra_createMatrix( newDim );
-	LinearAlgebra_setNullMatrix( newMatrix, newDim );
-
-	for( row = 0; row < dim; row++ )
-	{
-		for( column = 0; column < dim; column++ )
-		{
-			newMatrix[row][column] = matrix[row][column];
-		}
-	}
-
-	return newMatrix;
-}
-
 void LinearAlgebra_displayLinearSystem( Matrix matrix, Vector vector, int dim )
 {
 	int row, column;
@@ -367,20 +338,3 @@ void LinearAlgebra_displayLinearSystem( Matrix matrix, Vector vector, int dim )
 
 	printf( "\n\n" );
 }
-
-/*Vector LinearAlgebra_gaussSeidel( Matrix matrix, Vector vector, int dim )
-{
-	Vector solution = NULL;
-	double error = 0.0001;
-	int i;
-
-	if( !matrix || !vector )
-	{
-		fprintf( stderr, "Invalid Parameters: LinearAlgebra_gaussSeidel()\n" );
-		exit(1);
-	}
-
-	
-
-	return Vector;
-}*/

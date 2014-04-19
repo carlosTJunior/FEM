@@ -5,14 +5,14 @@
 #define CENTERED_DIFF 2 
 #define FORWARD_DIFF 3
 
-int FiniteDifferences_generateDirichletMatrix( Matrix, int, double );
-int FiniteDifferences_generateDirichletVector( Vector, int , varType, varType );
+Matrix FiniteDifferences_generateDirichletMatrix( int, double );
+Vector FiniteDifferences_generateDirichletVector( int , varType, varType );
 
 Matrix FiniteDifferences_generateVonNeumannMatrix_CenteredDiff( int, double );
-int FiniteDifferences_generateVonNeumannVector_CenteredDiff( Vector, int, double, double, double );
+Vector FiniteDifferences_generateVonNeumannVector_CenteredDiff( int, double, double, double );
 
-int FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( Matrix, int, double );
-int FiniteDifferences_generateVonNeumannVector_BackwardDiff( Vector, int, double, double, double );
+Matrix FiniteDifferences_generateVonNeumannMatrix_BackwardDiff( int, double );
+Vector FiniteDifferences_generateVonNeumannVector_BackwardDiff( int, double, double, double );
 
 int FiniteDifferences_solveDirichletProblem( int, double, double, double );
 int FiniteDifferences_solveVonNeumannBackwardProblem( int, double, double, double );
